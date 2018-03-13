@@ -1,0 +1,51 @@
+#openFUVC-modal.modal{
+    left:50%;
+    margin-top:15px;
+    position:absolute;
+    width:90%;
+    margin-left:-45%;
+    max-width:1600px
+}
+/*#openFUVC-modal.modal{
+    background:white;
+    left:50%;
+    max-width:1600px;
+    margin-left:-800;
+    margin-top:15px;
+}*/
+#openFUVC-modal .modal-body, #openFUVC-form{
+    padding-bottom:0;
+    margin-bottom:0;
+    max-height: 900px;
+}
+#openFUVC-modal .modal-footer{
+    padding-top:15px;
+}
+
+p.other{
+    margin-top:10px;
+}
+
+p.other input{
+    width:75px;
+    margin-left:15px
+}
+.left,.middle,.right{
+    display:inline-block;
+    vertical-align:top;
+    margin:0 20px;
+}
+.left{
+    width:35%;
+}
+.middle{
+width:55%
+}
+.w100{
+    width:100px;
+}.w75{
+    width:75px;
+}
+.indent td{
+    padding-left:50px;
+}
