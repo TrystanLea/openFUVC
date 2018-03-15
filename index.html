@@ -10,14 +10,45 @@
     <script type="text/javascript" src="openFUVC.js"></script>
     <script type="text/javascript" src="openFUVC-ui-helper.js"></script>
     <link rel="stylesheet" href='openFUVC.css'>
+
+    <style>
+        body{
+            margin:0 50px;
+        }
+
+        h1{
+            margin-top:25px;
+            color: rgb(221,51,51);
+            margin-bottom:25px;
+        }
+
+        p{
+            font-family:"sans-serif";
+            font-size:20px;
+            margin-bottom:10px;
+            line-height:25px
+        }
+
+        #nav{
+            background-color: rgb(221,51,51);
+            height:40px;
+        }
+
+        #launcher button{
+            margin-top: 50px;
+            padding: 25px;
+            font-size:25px
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Open floor U-value calculator (openFUVC)</h1>
-    <p>Welcome to openFUVC, an open source implementation of the thermal transmittance calculation of floors as specified in BS EN ISO 13370:2007</p>
-    <p>This project has been developed by <a href="http://urbed.coop/">URBED</a> and <a href="http://carbon.coop/">Carbon Co-op</a> as part of <a href="https://github.com/emoncms/MyHomeEnergyPlanner">MyHomeEnergyPlanner</a></p>
-                <p></p>
-
-
-                <button id="openFUVC-open-calculator">Open floor U-value calculator</button>
-                </body>
+    <div id="nav"></div>
+    <div id="content"  class="container">
+        <h1>Open floor U-value calculator (openFUVC)</h1>
+        <p>Welcome to openFUVC, an open source implementation of the thermal transmittance calculation of floors as specified in BS EN ISO 13370:2007.</p>
+        <p>This project has been developed by <a href="http://urbed.coop/">URBED</a> and <a href="http://carbon.coop/">Carbon Co-op</a> as part of <a href="https://github.com/emoncms/MyHomeEnergyPlanner">MyHomeEnergyPlanner</a>.</p>
+        <p>The calculator is released under the <a href="https://www.gnu.org/licenses/agpl-3.0.en.html"> GNU Affero General Public License</a>. So download it, study it, share it, change it, use it for yourself or in your website in which case don't forget to add a link to the <a rehf="https://github.com/carboncoop/openFUVC">source code</a> (also applies to any changes you may make).</p>
+        <p id="launcher" style='text-align: center'><button id="openFUVC-open-calculator">Launch Open floor U-value calculator</button></p>
+    </div>
+</body>

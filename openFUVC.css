@@ -22,30 +22,36 @@
     padding-top:15px;
 }
 
-p.other{
+#openFUVC-modal p{
+    font-size:16px
+}
+#openFUVC-modal p.other{
     margin-top:10px;
 }
 
-p.other input{
+#openFUVC-modal p.other input{
     width:75px;
     margin-left:15px
 }
-.left,.middle,.right{
+#openFUVC-modal .left,.middle,.right{
     display:inline-block;
     vertical-align:top;
     margin:0 20px;
 }
-.left{
+#openFUVC-modal .left{
     width:35%;
 }
-.middle{
-width:55%
+#openFUVC-modal .middle{
+    width:55%
 }
-.w100{
+#openFUVC-modal .w100{
     width:100px;
-}.w75{
+}
+
+#openFUVC-modal .w75{
     width:75px;
 }
-.indent td{
+
+#openFUVC-modal .indent td{
     padding-left:50px;
 }

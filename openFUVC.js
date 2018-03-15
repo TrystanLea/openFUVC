@@ -291,6 +291,8 @@ openFUVC.prototype.thermal_transmittance_floor_deck = function (layers) {
     layers.forEach(function (layer) {
         if (layer.thermal_conductivity_1 == 'unventilated')
             layer.thermal_conductivity_1 = openFUVC.thermal_resistance_unventilated_layer(layer.thickness);
+        if (layer.thermal_conductivity_1 == 'slightly_ventilated')
+            layer.thermal_conductivity_1 = openFUVC.thermal_resistance_slightly_ventilated_layer(layer.thickness);
         var mat1_proportion = (1 - layer.length_2) / layer.spacing;
         var mat2_proportion = layer.length_2 / layer.spacing;
         Rf += mat1_proportion * layer.thickness / layer.thermal_conductivity_1 + mat2_proportion * layer.thickness / layer.thermal_conductivity_2;
@@ -300,12 +302,12 @@ openFUVC.prototype.thermal_transmittance_floor_deck = function (layers) {
 };
 
 /**
- * The thermal resistance of an unventilated layer of a deck floor is defined in a table in EN ISO 6946 : 2007
+ * Calculates the thermal resistance of an unventilated layer of a deck floor as defined in a table in EN ISO 6946 : 2007
  * That table links the thickness of the layer with the resistance. This method interpolates the value of 
  * the resistance for the thickness of the air layer
  * 
  * @see openFUVC.dataset.thermal_resistance_unventilated_layer
- * @param {type} thickness of the air layer in m
+ * @param {number} thickness of the air layer in m
  * @returns {Number} The thermal resistance of the unventilated layer in m2.K/W
  */
 openFUVC.prototype.thermal_resistance_unventilated_layer = function (thickness) {
@@ -326,8 +328,23 @@ openFUVC.prototype.thermal_resistance_unventilated_layer = function (thickness) 
     });
     if (calculated == false)
         var thermal_resistance = datapoints[datapoints.length - 1][1];
-    console.log(thermal_resistance);
     return thermal_resistance;
+};
+
+/**
+ * Calculate the thermal resistance of an slightly ventilated layer of a deck floor as defined in EN ISO 6946 : 2007
+ * Ventilation openings (Av) are assumed to be 1000 mm 2 per metre of length
+ * 
+ * @see openFUVC.dataset.thermal_resistance_unventilated_layer
+ * @param {Number} thickness of the air layer in m
+ * @returns {Number} The thermal resistance of the unventilated layer in m2.K/W
+ */
+openFUVC.prototype.thermal_resistance_slightly_ventilated_layer = function (thickness) {
+    var Av = 1000; // mm 2 per metre of length
+    var Rtu = this.thermal_resistance_unventilated_layer(thickness);
+    var Rtv = this.dataset.Rsi_downwards;
+    var Rt = Rtu * (1500 - Av) / 1000 + Rtv * (Av - 500) / 1000;
+    return Rt;
 };
 
 /**

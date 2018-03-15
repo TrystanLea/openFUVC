@@ -5,7 +5,7 @@ $(document).ready(function () {
     openFUVC_helper.ini_modal();
 
     // Development
-   // $('#openFUVC-open-calculator').click();
+    $('#openFUVC-open-calculator').click();
     $('#type-of-floor select').val('suspended_floor').change();
     $('#add-layer').click();
     $('[layer="1"] .thickness').val(0.10);
