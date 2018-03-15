@@ -5,18 +5,18 @@ $(document).ready(function () {
     openFUVC_helper.ini_modal();
 
     // Development
-    $('#openFUVC-open-calculator').click();
-    $('#type-of-floor select').val('suspended_floor').change();
-    $('#add-layer').click();
-    $('[layer="1"] .thickness').val(0.10);
-    $('[layer="1"] .spacing').val(1);
-    $('[layer="1"] .length-material2').val(0.2);
-    $('[layer="2"] .thickness').val(0);
-    $('[layer="2"] .spacing').val(1);
-    $('[layer="2"] .length-material2').val(0.2);
-    $('[layer="1"] .material1').val("unventilated");
-    $('#openFUVC-calculate').click();
-    
+    /* $('#openFUVC-open-calculator').click();
+     //$('#type-of-floor select').val('suspended_floor').change();
+     $('#add-layer').click();
+     $('[layer="1"] .thickness').val(0.10);
+     $('[layer="1"] .spacing').val(1);
+     $('[layer="1"] .length-material2').val(0.2);
+     $('[layer="2"] .thickness').val(0);
+     $('[layer="2"] .spacing').val(1);
+     $('[layer="2"] .length-material2').val(0.2);
+     $('[layer="1"] .material1').val("unventilated");
+     $('#openFUVC-calculate').click();
+*/
 });
 
 openFUVC.prototype.add_modal_to_DOM = function () {
@@ -63,22 +63,23 @@ openFUVC.prototype.add_events = function () {
     var openFUVC_helper = this;
     $('#openFUVC-open-calculator').on('click', function () {
         $('#openFUVC-modal').modal('show');
+        openFUVC_helper.adjust_modal_height();
     });
-    $('#openFUVC-modal').on('change','#type-of-floor select', function () {
+    $('#openFUVC-modal').on('change', '#type-of-floor select', function () {
         openFUVC_helper.show_require_floor_inputs($(this).val());
         openFUVC_helper.adjust_modal_height();
     });
-    $('#openFUVC-modal').on('change','select', function () {
+    $('#openFUVC-modal').on('change', 'select', function () {
         if ($(this).find('option.other').is(':selected'))
             $(this).siblings('p.other').show();
         else
             $(this).siblings('p.other').hide();
     });
-    $('#openFUVC-modal').on('change','p.other input', function () {
+    $('#openFUVC-modal').on('change', 'p.other input', function () {
         // Copy value of the input to the option in select
         $(this).parent().siblings('select').find('option.other')[0].value = $(this).val();
     });
-    $('#openFUVC-modal').on('change','#base_insulation_thermal_conductivity select', function () {
+    $('#openFUVC-modal').on('change', '#base_insulation_thermal_conductivity select', function () {
         if ($(this).val() != 'none') {
             $('tr#base_insulation_thickness').show();
             $('tr#base_insulation_thickness input').attr('required', true);
@@ -88,7 +89,7 @@ openFUVC.prototype.add_events = function () {
             $('tr#base_insulation_thickness input').attr('required', false);
         }
     });
-    $('#openFUVC-modal').on('change','#edge_insulation_underfloor_space select', function () {
+    $('#openFUVC-modal').on('change', '#edge_insulation_underfloor_space select', function () {
         if ($(this).val() != 'none') {
             $('tr#edge_insulation_thermal_conductivity').show();
             $('tr#edge_insulation_thickness').show();
@@ -106,7 +107,7 @@ openFUVC.prototype.add_events = function () {
             $('tr#edge_insulation_length input').attr('required', false);
         }
     });
-    $('#openFUVC-modal').on('change','select#regions', function () {
+    $('#openFUVC-modal').on('change', 'select#regions', function () {
         if ($(this).val() == 'manually') {
             $('#wind_speed_annual_average input').attr('disabled', false);
             $('#external_temperature_annual_average input').attr('disabled', false);
@@ -117,7 +118,7 @@ openFUVC.prototype.add_events = function () {
             $('#external_temperature_annual_average input').attr('disabled', true).val(this.get_external_temperature_annual_average(index).toFixed(2));
         }
     });
-    $('#openFUVC-modal').on('change','#ventilation_type select', function () {
+    $('#openFUVC-modal').on('change', '#ventilation_type select', function () {
         // Reset (hide and unrequire) all the inputs
         $('tr#area_ventilation_openings').hide().find('input').attr('required', false);
         $('tr#wind_shielding_factor').hide().find('input').attr('required', false);
@@ -147,11 +148,11 @@ openFUVC.prototype.add_events = function () {
                 break;
         }
     });
-    $('#openFUVC-modal').on('change','#area input, #perimeter input', function () {
+    $('#openFUVC-modal').on('change', '#area input, #perimeter input', function () {
         var B = openFUVC_helper.characteristic_dimension($('#area input').val(), $('#perimeter input').val());
         $('#characteristic-dimension').html(B.toFixed(2));
     });
-    $('#openFUVC-modal').on('click', '#openFUVC-calculate',function () {
+    $('#openFUVC-modal').on('click', '#openFUVC-calculate', function () {
         if ($('#openFUVC-form')[0].checkValidity() === false) {
             // Trigger browser validation (shows errors in UI)
             $('<input type="submit" />').hide().appendTo('#openFUVC-form').click().remove();
@@ -163,10 +164,10 @@ openFUVC.prototype.add_events = function () {
             console.log('U-value: ' + uvalue);
         }
     });
-    $('#openFUVC-modal').on('change','select, #openFUVC-modal input', function () {
+    $('#openFUVC-modal').on('change', 'select, #openFUVC-modal input', function () {
         openFUVC_helper.adjust_modal_height();
     });
-    $('#openFUVC-modal').on('click','#add-layer', function (e) {
+    $('#openFUVC-modal').on('click', '#add-layer', function (e) {
         e.preventDefault();
         var layer_number = $('.layer').length + 1;
         $('#floor-deck').append('<tr class="layer" layer="' + layer_number + '">' + $('[layer=1]').html() + '</tr>');
@@ -196,13 +197,13 @@ openFUVC.prototype.add_options_to_select = function (selector, source) {
 
 openFUVC.prototype.add_options_floor_deck_material1 = function (selector) {
     elements = this.dataset.floor_deck.air_gaps;
-    
+
     $(selector).prepend('</optgroup>');
     for (var index in elements)
         $(selector).prepend('<option value="' + elements[index][1] + '">' + elements[index][0] + '</option>');
     $(selector).prepend('<optgroup label="Air gaps">');
-    
-      elements = this.dataset.floor_deck.finishes;
+
+    elements = this.dataset.floor_deck.finishes;
     $(selector).prepend('</optgroup>');
     for (var index in elements)
         $(selector).prepend('<option value="' + elements[index][1] + '">' + elements[index][0] + '</option>');
@@ -289,14 +290,14 @@ openFUVC.prototype.fetch_inputs = function (type_of_floor) {
                 default:
                     break;
             }
-            data.floor_deck_layers=[];
-            $('.layer').each(function(){
+            data.floor_deck_layers = [];
+            $('.layer').each(function () {
                 data.floor_deck_layers.push({
-                    thickness:$(this).find('.thickness').val(),
-                    thermal_conductivity_1:$(this).find('.material1').val(),
-                    thermal_conductivity_2:$(this).find('.material2').val(),
-                    length_2:$(this).find('.length-material2').val(),
-                    spacing:$(this).find('.spacing').val()
+                    thickness: $(this).find('.thickness').val(),
+                    thermal_conductivity_1: $(this).find('.material1').val(),
+                    thermal_conductivity_2: $(this).find('.material2').val(),
+                    length_2: $(this).find('.length-material2').val(),
+                    spacing: $(this).find('.spacing').val()
                 });
             });
             // floor_deck_layers: array of objects. Each object: {thickness: number, thermal_conductivity_1: number, thermal_conductivity_2: number, length_2: number, spacing: number} 
