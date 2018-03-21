@@ -253,6 +253,22 @@ openFUVC.prototype.heated_basement = function (datain) {
     return U;
 };
 
+/********************************************************************
+ * Calculates u-value of an exposed floor above ground level according to SAP 2012 section 3.3 p.15
+ * @param datain object with the relevant data to do the calculations
+ *      - floor_deck_layers: array of objects. Each object: {thickness: number, thermal_conductivity_1: number, thermal_conductivity_2: number, length_2: number, spacing: number} 
+ *      - unheated_space_thermal_resistance: thermal resistance of the unheated space underneath the floor in m2.K/W 
+ *    
+ * @returns {number} u-value of exposed floor above ground level in W/m2.K
+ * 
+ */
+openFUVC.prototype.exposed_floor_above_GL = function (datain) {
+    var Uo = this.thermal_transmittance_floor_deck(datain.floor_deck_layers);
+    var Ru = datain.unheated_space_thermal_resistance;
+    var U = 1 / (Ru + 1 / Uo);
+    return U;
+};
+
 /****
  * Calculate characteristic dimension of floor - formula 2 in BS EN ISO 13370:2007
  * 
@@ -297,7 +313,6 @@ openFUVC.prototype.thermal_transmittance_floor_deck = function (layers) {
         var mat2_proportion = layer.length_2 / layer.spacing;
         Rf += mat1_proportion * layer.thickness / layer.thermal_conductivity_1 + mat2_proportion * layer.thickness / layer.thermal_conductivity_2;
     });
-    console.log(Rf);
     return 1 / Rf;
 };
 
@@ -514,6 +529,8 @@ openFUVC.prototype.sanitize_data_in = function (data) {
             layer.spacing = 1.0 * layer.spacing;
         });
     }
+    if (data.unheated_space_thermal_resistance != undefined)
+        data.unheated_space_thermal_resistance = 1.0 * data.unheated_space_thermal_resistance;
 
     return data;
 };
@@ -613,6 +630,19 @@ var openFUVC_dataset = {
             unventilated: ['Still air gap', 'unventilated'],
             slightly_ventilated: ['Slightly ventilated air-gap', 'slightly_ventilated']
         }
+    },
+    unheated_space_thermal_resistance: {// Thermal resistance in m2.K/W - source SAP2012 - p16
+        "Floor above single internal garage, inside thermal envelope, connected side wall, floor and end wall": ['Floor above single internal garage, inside thermal envelope, connected side wall, floor and end wall', 0.68],
+        'Floor above single internal garage, inside thermal envelope, connected side wall and floor only': ['Floor above single internal garage, inside thermal envelope, connected side wall and floor only', 0.54],
+        'Floor above single interal garage, inside thermal envelope, connected side wall and floor only, displaced forward': ['Floor above single interal garage, inside thermal envelope, connected side wall and floor only, displaced forward', 0.33],
+        'Floor above single internal garage, outside thermal envelope, connected side wall and floor only': ['Floor above single internal garage, outside thermal envelope, connected side wall and floor only', 0.25],
+        'Floor above single interal garage, outside thermal envelope, connected side wall and floor only, displaced forward': ['Floor above single interal garage, outside thermal envelope, connected side wall and floor only, displaced forward', 0.26],
+        'Floor above single interal garage, outside thermal envelope': ['Floor above single interal garage, outside thermal envelope', 0.68],
+        'Floor above garage inside thermal envelope': ['Floor above garage inside thermal envelope', 0.25],
+        'Floor above entance porch or similar': ['Floor above entance porch or similar', 0.3],
+        'Floor above stairwell': ['Floor above stairwell', 0.82],
+        'Floor above communal access corridor, facing wall exposed': ['Floor above communal access corridor, facing wall exposed', 0.31],
+        'Floor above communal access corridor, facing wall not exposed': ['Floor above communal access corridor, facing wall not exposed', 0.43]
     },
     thermal_resistance_unventilated_layer: [// First dimension is thickness, second thermal resistance in m2.K/W (source EN ISO 6946 : 2007)
         [0, 0],

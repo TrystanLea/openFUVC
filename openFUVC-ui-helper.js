@@ -5,9 +5,9 @@ $(document).ready(function () {
     openFUVC_helper.ini_modal();
 
     // Development
-    /* $('#openFUVC-open-calculator').click();
-     //$('#type-of-floor select').val('suspended_floor').change();
-     $('#add-layer').click();
+    $('#openFUVC-open-calculator').click();
+    $('#type-of-floor select').val('exposed_floor_above_GL').change();
+    /*$('#add-layer').click();
      $('[layer="1"] .thickness').val(0.10);
      $('[layer="1"] .spacing').val(1);
      $('[layer="1"] .length-material2').val(0.2);
@@ -16,7 +16,7 @@ $(document).ready(function () {
      $('[layer="2"] .length-material2').val(0.2);
      $('[layer="1"] .material1').val("unventilated");
      $('#openFUVC-calculate').click();
-*/
+     */
 });
 
 openFUVC.prototype.add_modal_to_DOM = function () {
@@ -40,12 +40,13 @@ openFUVC.prototype.ini_modal = function () {
     this.add_options_to_select('select#regions', this.dataset.regions);
     this.add_options_floor_deck_material1('[layer="1"] select.material1');
     this.add_options_to_select('[layer="1"] select.material2', this.dataset.floor_deck.structural_elements);
+    this.add_options_to_select('#unheated_space_thermal_resistance select', this.dataset.unheated_space_thermal_resistance);
 
     // Remove 'none' option from 'Edge insulation type' as it is already in 'Edge insulation'
     $('tr#edge_insulation_thermal_conductivity option[value="none"]').remove();
 
     // Initialize some inputs/selects
-    $('#type-of-floor select').val('suspended_floor').change();
+    $('#type-of-floor select').val('slab_on_ground').change();
     $('#base_insulation_thermal_conductivity select').val('none').change();
     $('#wall_uvalue select').val('2.1').change();
     $('#edge_insulation_underfloor_space select').val('none').change();
@@ -161,6 +162,7 @@ openFUVC.prototype.add_events = function () {
             var type_of_floor = $('#type-of-floor select').val();
             var data = openFUVC_helper.fetch_inputs(type_of_floor);
             var uvalue = openFUVC_helper.calc(type_of_floor, data);
+            console.log(data);
             console.log('U-value: ' + uvalue);
         }
     });
@@ -300,7 +302,18 @@ openFUVC.prototype.fetch_inputs = function (type_of_floor) {
                     spacing: $(this).find('.spacing').val()
                 });
             });
-            // floor_deck_layers: array of objects. Each object: {thickness: number, thermal_conductivity_1: number, thermal_conductivity_2: number, length_2: number, spacing: number} 
+        case 'exposed_floor_above_GL':
+            data.unheated_space_thermal_resistance = $('#unheated_space_thermal_resistance select').val();
+            data.floor_deck_layers = [];
+            $('.layer').each(function () {
+                data.floor_deck_layers.push({
+                    thickness: $(this).find('.thickness').val(),
+                    thermal_conductivity_1: $(this).find('.material1').val(),
+                    thermal_conductivity_2: $(this).find('.material2').val(),
+                    length_2: $(this).find('.length-material2').val(),
+                    spacing: $(this).find('.spacing').val()
+                });
+            });
     }
     return data;
 };
