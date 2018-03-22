@@ -1,12 +1,13 @@
+var openFUVC_helper = new openFUVC();
+
 $(document).ready(function () {
-    var openFUVC_helper = new openFUVC();
     openFUVC_helper.add_modal_to_DOM();
     openFUVC_helper.add_events();
     openFUVC_helper.ini_modal();
 
     // Development
-    $('#openFUVC-open-calculator').click();
-    $('#type-of-floor select').val('exposed_floor_above_GL').change();
+    //$('#openFUVC-open-calculator').click();
+    //$('#type-of-floor select').val('exposed_floor_above_GL').change();
     /*$('#add-layer').click();
      $('[layer="1"] .thickness').val(0.10);
      $('[layer="1"] .spacing').val(1);
@@ -62,10 +63,6 @@ openFUVC.prototype.ini_modal = function () {
 
 openFUVC.prototype.add_events = function () {
     var openFUVC_helper = this;
-    $('#openFUVC-open-calculator').on('click', function () {
-        $('#openFUVC-modal').modal('show');
-        openFUVC_helper.adjust_modal_height();
-    });
     $('#openFUVC-modal').on('change', '#type-of-floor select', function () {
         openFUVC_helper.show_require_floor_inputs($(this).val());
         openFUVC_helper.adjust_modal_height();
@@ -164,6 +161,8 @@ openFUVC.prototype.add_events = function () {
             var uvalue = openFUVC_helper.calc(type_of_floor, data);
             console.log(data);
             console.log('U-value: ' + uvalue);
+            openFUVC_helper.callback(uvalue);
+            $('#openFUVC-modal').modal('hide');
         }
     });
     $('#openFUVC-modal').on('change', 'select, #openFUVC-modal input', function () {
@@ -182,6 +181,12 @@ openFUVC.prototype.add_events = function () {
         var layer_number = $(this).attr('layer');
         $('#openFUVC-modal tr.layer[layer="' + layer_number + '"]').remove();
     });
+};
+
+openFUVC.prototype.launch_calculator = function (callback) {
+    $('#openFUVC-modal').modal('show');
+    this.adjust_modal_height();
+    this.callback = callback;
 };
 
 openFUVC.prototype.add_options_to_select = function (selector, source) {
