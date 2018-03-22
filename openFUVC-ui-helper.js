@@ -22,7 +22,18 @@ $(document).ready(function () {
 
     // Development
     //$('#openFUVC-open-calculator').click();
-    //$('#type-of-floor select').val('exposed_floor_above_GL').change();
+   /* $('#type-of-floor select').val('suspended_floor').change();
+    $('#area input').val(75.6);
+    $('#perimeter input').val(35.4);
+    $('#wall_thickness input').val(0.3);
+    $('#height input').val(0.3);
+    $('#wall_uvalue select').val(1.7);
+    $('#area_ventilation_openings input').val(0.002);
+    $('#wind_shielding_factor select').val(0.05);
+    $('#depth_of_basement_floor input').val(0.3);
+    $('#wind_speed_annual_average input').val(4);
+    $('#external_temperature_annual_average input').val(10);
+    
     /*$('#add-layer').click();
      $('[layer="1"] .thickness').val(0.10);
      $('[layer="1"] .spacing').val(1);
@@ -31,8 +42,8 @@ $(document).ready(function () {
      $('[layer="2"] .spacing').val(1);
      $('[layer="2"] .length-material2').val(0.2);
      $('[layer="1"] .material1').val("unventilated");
-     $('#openFUVC-calculate').click();
-     */
+     $('#openFUVC-calculate').click();*/
+     
 });
 
 openFUVC.prototype.add_modal_to_DOM = function () {
@@ -53,6 +64,7 @@ openFUVC.prototype.ini_modal = function () {
     this.add_options_to_select('#edge_insulation_underfloor_space select', this.dataset.edge_insulation_underfloor_space);
     this.add_options_to_select('#wall_uvalue select', this.dataset.wall_uvalue);
     this.add_options_to_select('#ventilation_type select', this.dataset.ventilation_type);
+    this.add_options_to_select('#wind_shielding_factor select', this.dataset.wind_shielding_factor);
     this.add_options_to_select('select#regions', this.dataset.regions);
     this.add_options_floor_deck_material1('[layer="1"] select.material1');
     this.add_options_to_select('[layer="1"] select.material2', this.dataset.floor_deck.structural_elements);
@@ -127,8 +139,8 @@ openFUVC.prototype.add_events = function () {
         }
         else {
             var index = $(this).val();
-            $('#wind_speed_annual_average input').attr('disabled', true).val(this.get_wind_speed_annual_average(index).toFixed(2));
-            $('#external_temperature_annual_average input').attr('disabled', true).val(this.get_external_temperature_annual_average(index).toFixed(2));
+            $('#wind_speed_annual_average input').attr('disabled', true).val(openFUVC_helper.get_wind_speed_annual_average(index).toFixed(2));
+            $('#external_temperature_annual_average input').attr('disabled', true).val(openFUVC_helper.get_external_temperature_annual_average(index).toFixed(2));
         }
     });
     $('#openFUVC-modal').on('change', '#ventilation_type select', function () {
@@ -277,6 +289,7 @@ openFUVC.prototype.fetch_inputs = function (type_of_floor) {
         case 'suspended_floor':
             data.height = $('#height input').val();
             data.wall_uvalue = $('#wall_uvalue input').val();
+            data.depth_of_basement_floor = $('#depth_of_basement_floor input').val();
             data.wind_speed_annual_average = $('#wind_speed_annual_average input').val();
             data.height == $('#height input').val();
             data.wall_uvalue = $('#wall_uvalue select').val();
@@ -290,12 +303,12 @@ openFUVC.prototype.fetch_inputs = function (type_of_floor) {
                 data.edge_insulation_thermal_conductivity = $('#edge_insulation_thermal_conductivity select').val();
                 data.edge_insulation_length = $('#edge_insulation_length input').val();
             }
-            data.external_temperature_annual_average = $('#external_temperature_annual_average input');
+            data.external_temperature_annual_average = $('#external_temperature_annual_average input').val();
             data.ventilation_type = $('#ventilation_type select').val();
             switch (data.ventilation_type) {
                 case 'natural':
                     data.area_ventilation_openings = $('#area_ventilation_openings input').val();
-                    data.wind_shielding_factor = $('#wind_shielding_factor input').val();
+                    data.wind_shielding_factor = $('#wind_shielding_factor select').val();
                     break;
                 case 'mechanical_from_inside':
                     data.ventilation_rate = $('#ventilation_rate input').val();

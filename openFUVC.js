@@ -89,14 +89,14 @@ openFUVC.prototype.supended_floor = function (datain) {
         var Rg = 0;
 
     // 2.2. Calculation of dg: equivalent thickness
-    var dg = this.equivalent_thickness(datain.wall_thickness, datain.thermal_conductivity_ug, this.dataset.Rsi_downwards, Rg, this.dataset.Rse_below_ground);
+    var dg = this.equivalent_thickness(datain.wall_thickness, datain.thermal_conductivity_ug, this.dataset.Rsi_downwards, Rg, this.dataset.Rse_to_subfloor);
 
     // 2.3. Calculation of Ug
     if (datain.depth_of_basement_floor < 0.5)
         var Ug = 2 * datain.thermal_conductivity_ug * Math.log(Math.PI * B / dg + 1) / (Math.PI * B + dg); // equation 8
     else {
         var dt = dg;
-        var dw = this.equivalent_thickness(0, this.dataset.Rsi_horizontal, 1 / datain.wall_uvalue, this.dataset.Rse_below_ground)
+        var dw = this.equivalent_thickness(0, this.dataset.Rsi_horizontal, 1 / datain.wall_uvalue, this.dataset.Rse_to_subfloor)
         var Ubf = this.thermal_transmittance_basement_floor(datain.thermal_conductivity_ug, B, datain.depth_of_basement_floor, dt);
         var Ubw = this.thermal_transmittance_basement_walls(datain.thermal_conductivity_ug, datain.depth_of_basement_floor, dw, dt);
         var Ug = Ubf + datain.depth_of_basement_floor * datain.perimeter * Ubw / datain.area; // equation E.2
@@ -120,7 +120,6 @@ openFUVC.prototype.supended_floor = function (datain) {
     // in W/(m 2 ·K) (between the internal environment and the underfloor space);
     var Uf = this.thermal_transmittance_floor_deck(datain.floor_deck_layers);
 
-
     // 4- Calculation U-value of suspended floor, quation E.3
     // 4.1- Annual average wind speed
     if (datain.wind_speed_annual_average != undefined)
@@ -140,6 +139,7 @@ openFUVC.prototype.supended_floor = function (datain) {
             var Vrate = 0.59 * datain.area_ventilation_openings * wind_speed * datain.wind_shielding_factor * datain.perimeter;
             var Vcp = Vrate * this.dataset.air_density * this.dataset.air_heat_capacity;
             var ventilating_air_temperature = external_temperature;
+            datain.internal_temperature_annual_average = external_temperature + 5; //this random assignment is because we don't need to ask in the UI for the internal temperature but we sitll use it in the calculation of numerator (below), it  doesn't matter what value it has: the fact that ventilating_air_temperature equals external_temperature makes the second part of the numerator calculation equals to 1
             break;
         case 'mechanical_from_inside':
             var Vrate = datain.ventilation_rate;
@@ -167,7 +167,7 @@ openFUVC.prototype.supended_floor = function (datain) {
             break;
     }
     //4.4- Calculate U-value
-    var numerator = datain.area * Ug + datain.height * datain.perimeter * datain.wall_uvalue + Vcp * (datain.internal_temperature_annual_average - ventilating_air_temperature) * (datain.internal_temperature_annual_average - external_temperature);
+    var numerator = datain.area * Ug + datain.height * datain.perimeter * datain.wall_uvalue + Vcp * (datain.internal_temperature_annual_average - ventilating_air_temperature) / (datain.internal_temperature_annual_average - external_temperature);
     var denominator = datain.area * Uf + datain.area * Ug + datain.height * datain.perimeter * datain.wall_uvalue + Vcp;
     var U = Uf * numerator / denominator;
 
@@ -204,7 +204,7 @@ openFUVC.prototype.slab_on_ground = function (datain) {
         var Rf = 0;
 
     // Calculation of dt: equivalent thickness
-    var dt = this.equivalent_thickness(datain.wall_thickness, datain.thermal_conductivity_ug, this.dataset.Rsi_downwards, Rf, this.dataset.Rse_below_ground);
+    var dt = this.equivalent_thickness(datain.wall_thickness, datain.thermal_conductivity_ug, this.dataset.Rsi_downwards, Rf, this.dataset.Rse_to_subfloor);
 
     // Calculation U-value of slab on ground
     if (dt < B) // uninsulated and moderately insulated floors
@@ -255,9 +255,9 @@ openFUVC.prototype.heated_basement = function (datain) {
     else
         var Rf = 0;
     // Calculation of dt: equivalent thickness floor
-    var dt = this.equivalent_thickness(datain.wall_thickness, datain.thermal_conductivity_ug, this.dataset.Rsi_downwards, Rf, this.dataset.Rse_below_ground);
+    var dt = this.equivalent_thickness(datain.wall_thickness, datain.thermal_conductivity_ug, this.dataset.Rsi_downwards, Rf, this.dataset.Rse_to_subfloor);
     // Calculation of dw: equivalent thickness walls
-    var dw = this.equivalent_thickness(0, datain.thermal_conductivity_ug, this.dataset.Rsi_horizontal, 1 / datain.wall_uvalue, this.dataset.Rse_below_ground)
+    var dw = this.equivalent_thickness(0, datain.thermal_conductivity_ug, this.dataset.Rsi_horizontal, 1 / datain.wall_uvalue, this.dataset.Rse_to_subfloor)
     // Calculation thermal resistance floor
     var Ubf = this.thermal_transmittance_basement_floor(datain.thermal_conductivity_ug, B, datain.depth_of_basement_floor, dt);
     // Calculation thermal resistance walls
@@ -546,6 +546,8 @@ openFUVC.prototype.sanitize_data_in = function (data) {
     }
     if (data.unheated_space_thermal_resistance != undefined)
         data.unheated_space_thermal_resistance = 1.0 * data.unheated_space_thermal_resistance;
+    if (data.area_ventilation_openings != undefined)
+        data.area_ventilation_openings = 1.0 * data.area_ventilation_openings;
 
     return data;
 };
