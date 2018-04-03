@@ -126,29 +126,31 @@
                 </table>
                 <table id="floor-deck" class='table suspended_floor exposed_floor_above_GL'>
                     <tr><td colspan="4">U-value of floor deck</td><td><button class="btn" id="add-layer">Add layer</button></td><td></td><td></td></tr>
-                    <tr><td>Layer</td><td>Thickness</td><td>Material 1</td><td>Spacing</td><td>Material 2</td><td>Length material 2</td><td></td></tr>
-                    <tr class="layer" layer="1">
-                        <td class="layer-number">1</td>
-                        <td><input class="thickness w75" type="number" min="0.01" step="0.01" required> m</td>
-                        <td>
-                            <select class="material1">
-                                <!-- Options added by openFUCV-ui-helper -->
-                                <optgroup label="Other"><option class='other' value='0.13'>Other</option></optgroup>
-                            </select>
-                            <p class="other">Thermal conductivity <input class='w75' type='number' min='0.001' step='0.001' value='0.13' /> W/m.K</p>
-                        </td>
-                        <td><input class="spacing w75" type="number" min="0.01" step="0.01" required> m</td>
-                        <td>
-                            <select class="material2">
-                                <!-- Options added by openFUCV-ui-helper -->
-                                <option class='other' value='0.13'>Other</option>
-                            </select>
-                            <p class="other">Thermal conductivity <input class='w75' type='number' min='0.001' step='0.001' value='0.13' /> W/m.K</p>
-                        </td>
-                        <td><input class="length-material2 w75" type="number" min="0" step="0.001" value="0" required> m</td>
-                        <td class="actions"></td>
-                    </tr>
-
+                    <tr><td>Layer</td><td>Thickness (m)</td><td>Material 1</td><td>Material 2</td><td>Length material 2 (m)</td><td>Spacing (m)</td><td></td></tr>
+                </table>
+                <table style="display: none">
+                <tr class="layer" layer="template">
+                    <td class="layer-number"></td>
+                    <td><input class="thickness w75" type="number" min="0.01" step="0.01"></td>
+                    <td>
+                        <select class="material1">
+                            <!-- Options added by openFUCV-ui-helper -->
+                            <optgroup label="Other"><option class='other' value='0.13'>Other</option></optgroup>
+                        </select>
+                        <p class="other">Thermal conductivity <input class='w75' type='number' min='0.001' step='0.001' value='0.13' /> W/m.K</p>
+                    </td>
+                    <td>
+                        <select class="material2">
+                            <!-- Options added by openFUCV-ui-helper -->
+                            <option value="none">None</option>
+                            <option class='other' value='0.13'>Other</option>
+                        </select>
+                        <p class="other">Thermal conductivity <input class='w75' type='number' min='0.001' step='0.001' value='0.13' /> W/m.K</p>
+                    </td>
+                    <td><input class="length-material2 w75" type="number" min="0" step="0.001" ></td>
+                    <td><input class="spacing w75" type="number" min="0.01" step="0.01" ></td>
+                    <td class="actions"></td>
+                </tr>
                 </table>
             </div>
         </form>

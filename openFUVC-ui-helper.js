@@ -21,8 +21,8 @@ $(document).ready(function () {
     openFUVC_helper.ini_modal();
 
     // Development
-    //$('#openFUVC-open-calculator').click();
-   /* $('#type-of-floor select').val('suspended_floor').change();
+    $('#launch-calculator').click();
+    $('#type-of-floor select').val('suspended_floor').change();
     $('#area input').val(75.6);
     $('#perimeter input').val(35.4);
     $('#wall_thickness input').val(0.3);
@@ -66,20 +66,21 @@ openFUVC.prototype.ini_modal = function () {
     this.add_options_to_select('#ventilation_type select', this.dataset.ventilation_type);
     this.add_options_to_select('#wind_shielding_factor select', this.dataset.wind_shielding_factor);
     this.add_options_to_select('select#regions', this.dataset.regions);
-    this.add_options_floor_deck_material1('[layer="1"] select.material1');
-    this.add_options_to_select('[layer="1"] select.material2', this.dataset.floor_deck.structural_elements);
+    this.add_options_floor_deck_material1('[layer="template"] select.material1');
+    this.add_options_to_select('[layer="template"] select.material2', this.dataset.floor_deck.structural_elements);
     this.add_options_to_select('#unheated_space_thermal_resistance select', this.dataset.unheated_space_thermal_resistance);
 
     // Remove 'none' option from 'Edge insulation type' as it is already in 'Edge insulation'
     $('tr#edge_insulation_thermal_conductivity option[value="none"]').remove();
-
+    
     // Initialize some inputs/selects
     $('#type-of-floor select').val('slab_on_ground').change();
     $('#base_insulation_thermal_conductivity select').val('none').change();
     $('#wall_uvalue select').val('2.1').change();
     $('#edge_insulation_underfloor_space select').val('none').change();
+    $('#add-layer').click();
     $('[layer=1] select.material1').val('0.18').change();
-    $('[layer=1] select.material2').val('0.18').change();
+    $('[layer=1] select.material2').val('none').change();
 
     // Show the inputs according to which type of floor is selected
     this.show_require_floor_inputs($('tr#type-of-floor select').val());
@@ -99,6 +100,17 @@ openFUVC.prototype.add_events = function () {
             $(this).siblings('p.other').show();
         else
             $(this).siblings('p.other').hide();
+    });
+    $('#openFUVC-modal').on('change', 'select.material2', function () {
+        var layer =  $(this).parent().parent().attr('layer');
+        if ($(this).find('option[value=none]').is(':selected')){
+            $('tr[layer='+layer+'] .length-material2').hide().attr('required', false);
+            $('tr[layer='+layer+'] .spacing').hide().attr('required', false);            
+        }            
+        else{
+            $('tr[layer='+layer+'] .length-material2').show().attr('required', true);
+            $('tr[layer='+layer+'] .spacing').show().attr('required', true);            
+        }      
     });
     $('#openFUVC-modal').on('change', 'p.other input', function () {
         // Copy value of the input to the option in select
@@ -197,10 +209,11 @@ openFUVC.prototype.add_events = function () {
     });
     $('#openFUVC-modal').on('click', '#add-layer', function (e) {
         e.preventDefault();
-        var layer_number = $('.layer').length + 1;
-        $('#floor-deck').append('<tr class="layer" layer="' + layer_number + '">' + $('[layer=1]').html() + '</tr>');
+        var layer_number = $('.layer').length;
+        $('#floor-deck').append('<tr class="layer" layer="' + layer_number + '">' + $('[layer=template]').html() + '</tr>');
         $('#floor-deck [layer="' + layer_number + '"] .layer-number').html(layer_number);
         $('#floor-deck [layer="' + layer_number + '"] .actions').html('<i class="icon-trash" layer="' + layer_number + '" style="cursor:pointer" />');
+        $('#floor-deck [layer="' + layer_number + '"] select.material2').val('none').change();
         //openFUVC_helper.add_events();
 
     });
@@ -327,25 +340,45 @@ openFUVC.prototype.fetch_inputs = function (type_of_floor) {
             }
             data.floor_deck_layers = [];
             $('.layer').each(function () {
-                data.floor_deck_layers.push({
-                    thickness: $(this).find('.thickness').val(),
-                    thermal_conductivity_1: $(this).find('.material1').val(),
-                    thermal_conductivity_2: $(this).find('.material2').val(),
-                    length_2: $(this).find('.length-material2').val(),
-                    spacing: $(this).find('.spacing').val()
-                });
+                if ($(this).attr('layer') !='template'){
+                    var layer = {
+                        thickness: $(this).find('.thickness').val(),
+                        thermal_conductivity_1: $(this).find('.material1').val(),
+                    }
+                    if($(this).find('.material2').val() != 'none'){
+                        layer.length_2 = $(this).find('.length-material2').val();
+                        layer.thermal_conductivity_2 = $(this).find('.material2').val();
+                        layer.spacing = $(this).find('.spacing').val();
+                    }
+                    else{                    
+                        layer.length_2 = 0;
+                        layer.thermal_conductivity_2 = 1; // doesn't matter the value
+                        layer.spacing = 1; // meaning meterial 1 has 100%
+                    }
+                    data.floor_deck_layers.push(layer);
+                }
             });
         case 'exposed_floor_above_GL':
             data.unheated_space_thermal_resistance = $('#unheated_space_thermal_resistance select').val();
             data.floor_deck_layers = [];
-            $('.layer').each(function () {
-                data.floor_deck_layers.push({
-                    thickness: $(this).find('.thickness').val(),
-                    thermal_conductivity_1: $(this).find('.material1').val(),
-                    thermal_conductivity_2: $(this).find('.material2').val(),
-                    length_2: $(this).find('.length-material2').val(),
-                    spacing: $(this).find('.spacing').val()
-                });
+               $('.layer').each(function () {
+                if ($(this).attr('layer') !='template'){
+                    var layer = {
+                        thickness: $(this).find('.thickness').val(),
+                        thermal_conductivity_1: $(this).find('.material1').val(),
+                    }
+                    if($(this).find('.material2').val() != 'none'){
+                        layer.length_2 = $(this).find('.length-material2').val();
+                        layer.thermal_conductivity_2 = $(this).find('.material2').val();
+                        layer.spacing = $(this).find('.spacing').val();
+                    }
+                    else{                    
+                        layer.length_2 = 0;
+                        layer.thermal_conductivity_2 = 1; // doesn't matter the value
+                        layer.spacing = 1; // meaning meterial 1 has 100%
+                    }
+                    data.floor_deck_layers.push(layer);
+                }
             });
     }
     return data;
