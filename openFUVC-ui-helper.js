@@ -21,7 +21,7 @@ $(document).ready(function () {
     openFUVC_helper.ini_modal();
 
     // Development
-    $('#launch-calculator').click();
+    /*$('#launch-calculator').click();
     $('#type-of-floor select').val('suspended_floor').change();
     $('#area input').val(75.6);
     $('#perimeter input').val(35.4);
@@ -32,7 +32,7 @@ $(document).ready(function () {
     $('#wind_shielding_factor select').val(0.05);
     $('#depth_of_basement_floor input').val(0.3);
     $('#wind_speed_annual_average input').val(4);
-    $('#external_temperature_annual_average input').val(10);
+    $('#external_temperature_annual_average input').val(10);*/
     
     /*$('#add-layer').click();
      $('[layer="1"] .thickness').val(0.10);
