@@ -47,8 +47,16 @@ $(document).ready(function () {
 });
 
 openFUVC.prototype.add_modal_to_DOM = function () {
+    var src = '';
+    var scripts = document.getElementsByTagName('script');
+    for(var i = 0; i < scripts.length;i++){
+        var pos = scripts[i].src.indexOf('openFUVC-ui-helper.js');
+        if(pos != -1)
+            src = scripts[i].src.slice(0,pos);
+    }
+    //console.log (src);
     $.ajax({
-        url: 'openFUVC.html',
+        url: src + 'openFUVC.html',
         async: false,
         success: function (data) {
             $('body').append(data);
