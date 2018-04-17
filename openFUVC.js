@@ -564,7 +564,7 @@ var openFUVC_dataset = {
     thermal_conductivity_ug: {// Thermal conductivity of unfrozen ground (source: p.5, BS EN ISO 13370:2007) - W/m.K
         clay_or_silt: ['Clay or silt', 1.5],
         sand_or_gravel: ['Sand or gravel', 2.0],
-        homogeneus_rock: ['Homogeneus', 3.5],
+        homogeneus_rock: ['Homogenous rock', 3.5],
         unknown: ['Unknown', 2.0]
     },
     heat_capacity: {// Heat capacity per volume (source: p.5, BS EN ISO 13370:2007) - J/m3K
