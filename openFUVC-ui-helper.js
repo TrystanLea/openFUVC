@@ -207,6 +207,7 @@ openFUVC.prototype.add_events = function () {
             var data = openFUVC_helper.fetch_inputs(type_of_floor);
             var uvalue = openFUVC_helper.calc(type_of_floor, data);
             console.log(data);
+            console.log(JSON.stringify(data));
             console.log('U-value: ' + uvalue);
             openFUVC_helper.callback(uvalue);
             $('#openFUVC-modal').modal('hide');
