@@ -164,6 +164,7 @@ openFUVC.prototype.supended_floor = function (datain) {
             var Vrate = 0;
             var Vcp = 0;
             var ventilating_air_temperature = external_temperature; // Not relevant as it's multiplied by V in the formula, resulting in 0
+            datain.internal_temperature_annual_average = external_temperature + 5; //this random assignment is because we don't need to ask in the UI for the internal temperature but we sitll use it in the calculation of numerator (below), it  doesn't matter what value it has: Vcp equals 0 making internal temperature bit of the formula to be 0 as well
             break;
     }
     //4.4- Calculate U-value

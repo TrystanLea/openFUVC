@@ -21,8 +21,8 @@ $(document).ready(function () {
     openFUVC_helper.ini_modal();
 
     // Development
-    /*$('#launch-calculator').click();
-    $('#type-of-floor select').val('suspended_floor').change();
+    /*$('#launch-calculator').click();*/
+    /*$('#type-of-floor select').val('suspended_floor').change();
     $('#area input').val(75.6);
     $('#perimeter input').val(35.4);
     $('#wall_thickness input').val(0.3);
@@ -326,6 +326,7 @@ openFUVC.prototype.fetch_inputs = function (type_of_floor) {
                 data.edge_insulation_length = $('#edge_insulation_length input').val();
             }
             data.external_temperature_annual_average = $('#external_temperature_annual_average input').val();
+            data.internal_temperature_annual_average = $('#internal_temperature_annual_average input').val();
             data.ventilation_type = $('#ventilation_type select').val();
             switch (data.ventilation_type) {
                 case 'natural':
