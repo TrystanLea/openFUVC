@@ -158,7 +158,8 @@ openFUVC.prototype.supended_floor = function (datain) {
                 Vrate = this.dataset.default_ventilation_rate_unheated_basement;
             var Vcp = 0.34 * Vrate * datain.basement_volume;
             var ventilating_air_temperature = external_temperature;
-            break;
+            datain.internal_temperature_annual_average = external_temperature + 5; //this random assignment is because we don't need to ask in the UI for the internal temperature but we sitll use it in the calculation of numerator (below), it  doesn't matter what value it has: the fact that ventilating_air_temperature equals external_temperature makes the second part of the numerator calculation equals to 1
+           break;
         case 'none':
         default:
             var Vrate = 0;
