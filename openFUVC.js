@@ -564,10 +564,10 @@ var openFUVC_dataset = {
     air_density: 1.23, // the density of air, in kg/m3
     default_ventilation_rate_unheated_basement: 0.3, // default ventilation rate of an unheated basement, in air changes per hour
     thermal_conductivity_ug: {// Thermal conductivity of unfrozen ground (source: p.5, BS EN ISO 13370:2007) - W/m.K
-        clay_or_silt: ['Clay or silt', 1.5],
-        sand_or_gravel: ['Sand or gravel', 2.0],
-        homogeneus_rock: ['Homogenous rock', 3.5],
-        unknown: ['Unknown', 2.0]
+        clay_or_silt: ['Clay or silt (1.5)', 1.5],
+        sand_or_gravel: ['Sand or gravel (2.0)', 2.0],
+        homogeneus_rock: ['Homogenous rock (3.5)', 3.5],
+        unknown: ['Unknown (2.0)', 2.0]
     },
     heat_capacity: {// Heat capacity per volume (source: p.5, BS EN ISO 13370:2007) - J/m3K
         clay_or_silt: 3000000,
@@ -576,9 +576,9 @@ var openFUVC_dataset = {
         unknown: 2000000
     },
     wind_shielding_factor: {// fw (source p.11,BS EN ISO 13370:2007)
-        sheltered: ['Sheltered (eg. city centre)', 0.02],
-        average: ['Average (eg. suburban)', 0.05],
-        exposed: ['Exposed (eg. rural)', 0.1]
+        sheltered: ['Sheltered - eg. city centre (0.02)', 0.02],
+        average: ['Average - eg. suburban (0.05)', 0.05],
+        exposed: ['Exposed - eg. rural (0.1)', 0.1]
     },
     ventilation_openings: {// Ventilation openings per m exposed perimeter - m2/m
         minimal_or_partially_blocked: ['Minimal or partially blocked', 0.0015],
@@ -586,25 +586,25 @@ var openFUVC_dataset = {
         well_ventilated: ['Well ventilated', 0.0045]
     },
     wall_uvalue: {// U-value of walls to underfloor space (thermal conductivity) -W/m2.K - (note this is itself a simplification/assumption - would be possible to also calculate U-value here, but felt this would over-complicate things)
-        usm_greater500: ['Uninsulated solid masonry wall (>500mm)', 1.7],
-        usm_300_500: ['Uninsulated solid masonry wall (300-500mm) ', 2.1],
-        usm_200_300: ['Uninsulated solid masonry wall (200-300mm)', 1.8],
-        ucw: ['Uninsulated cavity wall', 1.6],
-        icw: ['Insulated cavity wall ', 0.5],
-        smw_75_100_EWI: ['Solid masonry wall with 75-100mm EWI', 0.4],
-        smw_200_EWI: ['Solid masonry wall with 200mm EWI ', 0.2],
-        fcw_100_EWI: ['Filled cavity wall wall with 100mm EWI', 0.2],
-        smw_IWI: ['Solid masonry wall with IWI', 0.4] // This is a pretty unlikely specification - you'd almost never put internal wall insulation in a sub-floor void. Including it for completeness.
+        usm_greater500: ['Uninsulated solid masonry wall >500mm (1.7)', 1.7],
+        usm_300_500: ['Uninsulated solid masonry wall 300-500mm (2.1)', 2.1],
+        usm_200_300: ['Uninsulated solid masonry wall 200-300mm (1.8)', 1.8],
+        ucw: ['Uninsulated cavity wall (1.6)', 1.6],
+        icw: ['Insulated cavity wall (0.5)', 0.5],
+        smw_75_100_EWI: ['Solid masonry wall with 75-100mm EWI (0.4)', 0.4],
+        smw_200_EWI: ['Solid masonry wall with 200mm EWI (0.2)', 0.2],
+        fcw_100_EWI: ['Filled cavity wall wall with 100mm EWI (0.2)', 0.2],
+        smw_IWI: ['Solid masonry wall with IWI (0.4)', 0.4] // This is a pretty unlikely specification - you'd almost never put internal wall insulation in a sub-floor void. Including it for completeness.
     },
     insulation_conductivity: {// Insulation thermal conductivity (W/m.K)
-        granular_insulation: ['Granular insulation (technopor, misapor or similar)', 0.1],
-        rigid_glass_foam: ['Rigid glass foam', 0.05],
-        fibre_insulation: ['Fibre insulation (glasswool, mineral fibre, woodfibre etc)', 0.04],
-        eps: ['Polystyrene foam boards (EPS)', 0.04],
-        xps: ['Polystyrene foam boards (XPS)', 0.035],
-        rigid_foam_boards: ['Rigid foam boards (phenolic/PU/PIR)', 0.025],
-        very_high_performance: ['Very high performance (aerogel, VIPs, etc)', 0.015],
-        unknown: ['Unknown', 0.04],
+        granular_insulation: ['Granular insulation - technopor, misapor or similar (0.1)', 0.1],
+        rigid_glass_foam: ['Rigid glass foam (0.05)', 0.05],
+        fibre_insulation: ['Fibre insulation - glasswool, mineral fibre, woodfibre, etc. (0.04)', 0.04],
+        eps: ['Polystyrene foam boards - EPS (0.04)', 0.04],
+        xps: ['Polystyrene foam boards - XPS (0.035)', 0.035],
+        rigid_foam_boards: ['Rigid foam boards - phenolic/PU/PIR (0.025)', 0.025],
+        very_high_performance: ['Very high performance - aerogel, VIPs, etc. (0.015)', 0.015],
+        unknown: ['Unknown (0.04)', 0.04],
         none: ['None', 'none']
     },
     edge_insulation_underfloor_space: {
@@ -621,29 +621,29 @@ var openFUVC_dataset = {
     },
     floor_deck: {
         structural_elements: {
-            softwood: ['Soft wood', 0.13],
-            hardwood: ['Hard wood', 0.18],
-            chipboard_plywood_OSB_MDF: ['Chipboard, plywood, OSB or MDF', 0.13],
-            cement_screed: ['Cement screed', 1.4],
-            concrete_blockwork: ['Concrete blockwork', 0.3],
-            reinforced_concrete_beams: ['Reinforced concrete beams', 2.1]
+            softwood: ['Soft wood (0.13)', 0.13],
+            hardwood: ['Hard wood (0.18)', 0.18],
+            chipboard_plywood_OSB_MDF: ['Chipboard, plywood, OSB or MDF (0.13)', 0.13],
+            cement_screed: ['Cement screed (1.4)', 1.4],
+            concrete_blockwork: ['Concrete blockwork (0.3)', 0.3],
+            reinforced_concrete_beams: ['Reinforced concrete beams (2.1)', 2.1]
         },
         insulation: {
-            granular: ['Granular insulation (technopor, misapor or similar)', 0.1],
-            rigid: ['Rigid glass foam', 0.05],
-            fibre: ['Fibre insulation (glasswool, mineral fibre, woodfibre etc)', 0.04],
-            EPS: ['Polystyrene foam boards - EPS', 0.04],
-            XPS: ['Polystyrene foam boards - XPS', 0.035],
-            rigid_foam_boards: ['Rigid foam boards - phenolic/PU/PIR', 0.025],
-            very_high_performance: ['Very high performance - aerogel, VIPs etc', 0.015],
+            granular: ['Granular insulation - technopor, misapor or similar (0.1)', 0.1],
+            rigid: ['Rigid glass foam (0.05)', 0.05],
+            fibre: ['Fibre insulation - glasswool, mineral fibre, woodfibre etc (0.04)', 0.04],
+            EPS: ['Polystyrene foam boards - EPS (0.04)', 0.04],
+            XPS: ['Polystyrene foam boards - XPS (0.035)', 0.035],
+            rigid_foam_boards: ['Rigid foam boards - phenolic/PU/PIR (0.25)', 0.025],
+            very_high_performance: ['Very high performance - aerogel, VIPs, etc. (0.015)', 0.015],
             unknown: ['Unknown', 0.04],
         },
         finishes: {
-            gypsum_plasterboard_or_cement_particle_board: ['Gypsum plasterboard or cement particle board', 0.25],
-            chipboard_plywood_OSB_MDF: ['Chipboard, plywood, OSB or MDF', 0.13],
-            fermacell: ['Fermacell', 0.32],
-            woodfibre_sheathing_board: ['Woodfibre sheathing board', 0.1],
-            magnesium_oxide_board: ['Magnesium oxide board', 0.4]
+            gypsum_plasterboard_or_cement_particle_board: ['Gypsum plasterboard or cement particle board (0.25)', 0.25],
+            chipboard_plywood_OSB_MDF: ['Chipboard, plywood, OSB or MDF (0.13)', 0.13],
+            fermacell: ['Fermacell (0.32)', 0.32],
+            woodfibre_sheathing_board: ['Woodfibre sheathing board (0.1)', 0.1],
+            magnesium_oxide_board: ['Magnesium oxide board (0.4)', 0.4]
         },
         air_gaps: {
             unventilated: ['Still air gap', 'unventilated'],
@@ -651,17 +651,17 @@ var openFUVC_dataset = {
         }
     },
     unheated_space_thermal_resistance: {// Thermal resistance in m2.K/W - source SAP2012 - p16
-        "Floor above single internal garage, inside thermal envelope, connected side wall, floor and end wall": ['Floor above single internal garage, inside thermal envelope, connected side wall, floor and end wall', 0.68],
-        'Floor above single internal garage, inside thermal envelope, connected side wall and floor only': ['Floor above single internal garage, inside thermal envelope, connected side wall and floor only', 0.54],
-        'Floor above single interal garage, inside thermal envelope, connected side wall and floor only, displaced forward': ['Floor above single interal garage, inside thermal envelope, connected side wall and floor only, displaced forward', 0.33],
-        'Floor above single internal garage, outside thermal envelope, connected side wall and floor only': ['Floor above single internal garage, outside thermal envelope, connected side wall and floor only', 0.25],
-        'Floor above single interal garage, outside thermal envelope, connected side wall and floor only, displaced forward': ['Floor above single interal garage, outside thermal envelope, connected side wall and floor only, displaced forward', 0.26],
-        'Floor above single interal garage, outside thermal envelope': ['Floor above single interal garage, outside thermal envelope', 0.68],
-        'Floor above garage inside thermal envelope': ['Floor above garage inside thermal envelope', 0.25],
-        'Floor above entance porch or similar': ['Floor above entance porch or similar', 0.3],
-        'Floor above stairwell': ['Floor above stairwell', 0.82],
-        'Floor above communal access corridor, facing wall exposed': ['Floor above communal access corridor, facing wall exposed', 0.31],
-        'Floor above communal access corridor, facing wall not exposed': ['Floor above communal access corridor, facing wall not exposed', 0.43]
+        "Floor above single internal garage, inside thermal envelope, connected side wall, floor and end wall": ['Floor above single internal garage, inside thermal envelope, connected side wall, floor and end wall (0.68)', 0.68],
+        'Floor above single internal garage, inside thermal envelope, connected side wall and floor only': ['Floor above single internal garage, inside thermal envelope, connected side wall and floor only (0.54)', 0.54],
+        'Floor above single interal garage, inside thermal envelope, connected side wall and floor only, displaced forward': ['Floor above single interal garage, inside thermal envelope, connected side wall and floor only, displaced forward (0.33)', 0.33],
+        'Floor above single internal garage, outside thermal envelope, connected side wall and floor only': ['Floor above single internal garage, outside thermal envelope, connected side wall and floor only (0.25)', 0.25],
+        'Floor above single interal garage, outside thermal envelope, connected side wall and floor only, displaced forward': ['Floor above single interal garage, outside thermal envelope, connected side wall and floor only, displaced forward (0.26)', 0.26],
+        'Floor above single interal garage, outside thermal envelope': ['Floor above single interal garage, outside thermal envelope (0.68)', 0.68],
+        'Floor above garage inside thermal envelope': ['Floor above garage inside thermal envelope (0.25)', 0.25],
+        'Floor above entance porch or similar': ['Floor above entance porch or similar (0.3)', 0.3],
+        'Floor above stairwell': ['Floor above stairwell (0.82)', 0.82],
+        'Floor above communal access corridor, facing wall exposed': ['Floor above communal access corridor, facing wall exposed (0.31)', 0.31],
+        'Floor above communal access corridor, facing wall not exposed': ['Floor above communal access corridor, facing wall not exposed (0.43)', 0.43]
     },
     thermal_resistance_unventilated_layer: [// First dimension is thickness, second thermal resistance in m2.K/W (source EN ISO 6946 : 2007)
         [0, 0],
