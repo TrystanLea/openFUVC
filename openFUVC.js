@@ -96,7 +96,7 @@ openFUVC.prototype.supended_floor = function (datain) {
         var Ug = 2 * datain.thermal_conductivity_ug * Math.log(Math.PI * B / dg + 1) / (Math.PI * B + dg); // equation 8
     else {
         var dt = dg;
-        var dw = this.equivalent_thickness(0, this.dataset.Rsi_horizontal, 1 / datain.wall_uvalue, this.dataset.Rse_to_subfloor)
+        var dw = this.equivalent_thickness(0, datain.thermal_conductivity_ug, this.dataset.Rsi_horizontal, 1 / datain.wall_uvalue, this.dataset.Rse_to_subfloor)
         var Ubf = this.thermal_transmittance_basement_floor(datain.thermal_conductivity_ug, B, datain.depth_of_basement_floor, dt);
         var Ubw = this.thermal_transmittance_basement_walls(datain.thermal_conductivity_ug, datain.depth_of_basement_floor, dw, dt);
         var Ug = Ubf + datain.depth_of_basement_floor * datain.perimeter * Ubw / datain.area; // equation E.2
@@ -159,7 +159,7 @@ openFUVC.prototype.supended_floor = function (datain) {
             var Vcp = 0.34 * Vrate * datain.basement_volume;
             var ventilating_air_temperature = external_temperature;
             datain.internal_temperature_annual_average = external_temperature + 5; //this random assignment is because we don't need to ask in the UI for the internal temperature but we sitll use it in the calculation of numerator (below), it  doesn't matter what value it has: the fact that ventilating_air_temperature equals external_temperature makes the second part of the numerator calculation equals to 1
-           break;
+            break;
         case 'none':
         default:
             var Vrate = 0;
