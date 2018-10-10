@@ -8,4 +8,3 @@ If you have any comments, please use [MHEP issues](https://github.com/emoncms/My
 
 The calculator is released under the [GNU Affero General Public License](https://www.gnu.org/licenses/agpl-3.0.en.html). So download it, study it, share it, change it, use it for yourself or in your website in which case don't forget to add a link to the <a rehf="https://github.com/carboncoop/openFUVC">source code</a> (also applies to any changes you may make).
 
-
